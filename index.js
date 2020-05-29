@@ -1,8 +1,8 @@
-//const csv = require("csv-parser");
 const readXlsxFile = require("read-excel-file/node");
 const createCsvWriter = require("csv-writer").createObjectCsvWriter;
 const mysql = require("mysql");
 
+//coneccion a base de datos
 const con = mysql.createConnection({
   host: "localhost",
   port: 3306,
@@ -11,12 +11,14 @@ const con = mysql.createConnection({
   database: "open_city",
 });
 
+// lectura de archivo .xlsx de una sola fila, si hay mas filas cambiar el codigo.
 readXlsxFile("instituciones.xlsx").then((rows) => {
   console.log(rows.map((val) => val[0]));
 
   insert(rows.map((val) => val[0]));
 });
 
+//funcion para insertar los datos de un arreglo a la base de datos
 async function insert(rows) {
   console.log(rows);
   let arraydb = await rows.map((val) => {
@@ -33,6 +35,7 @@ async function insert(rows) {
   );
 }
 
+//ejecucion del la insertcion a la base de datos
 async function querySQL(val) {
   let promesa = await new Promise((resolve, reject) => {
     con.query(`INSERT INTO institutions (name) VALUES ('${val}')`, function (
@@ -46,6 +49,7 @@ async function querySQL(val) {
   return promesa;
 }
 
+//funcion para crear el archivo csv
 function createFileCSV(nameFile, dataCsv, header) {
   const csvWriter = createCsvWriter({
     path: nameFile,
