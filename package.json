@@ -6,6 +6,7 @@
   "dependencies": {
     "csv-generate": "^3.2.4",
     "csv-parser": "^2.3.2",
+    "csv-reader": "^1.0.6",
     "csv-writer": "^1.6.0",
     "mysql": "^2.18.1",
     "read-excel-file": "^4.0.6"
